@@ -1,4 +1,5 @@
 node_modules
 dist
 *.log
+*.sqlite3
 __pycache__
