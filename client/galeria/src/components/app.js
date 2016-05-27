@@ -1,18 +1,76 @@
 import React, { PropTypes } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-//import * as bs from 'react-bootstrap';
-//import * as actions from '../actions';
+import { IndexLink } from 'react-router';
+import { Icon } from 'react-fa';
+import { LinkContainer } from 'react-router-bootstrap';
+import * as bs from 'react-bootstrap';
+import * as actions from '../actions';
 
 require('bootstrap/dist/css/bootstrap.min.css');
 require('bootstrap/dist/css/bootstrap-theme.min.css');
+require('app.css');
 
+
+const Navbar = props => {
+  const authNav = props.isAuthenticated ? (
+    <bs.Nav pullRight>
+      <bs.NavItem eventKey={4} href="#" onClick={props.actions.logout}>Logout</bs.NavItem>
+    </bs.Nav>
+  ) : (
+    <bs.Nav pullRight>
+      <LinkContainer to="/login/">
+        <bs.NavItem eventKey={4} href="/login/">Login</bs.NavItem>
+      </LinkContainer>
+      <bs.NavItem eventKey={5} href="#">Signup</bs.NavItem>
+    </bs.Nav>
+  );
+
+  return (
+    <bs.Navbar>
+      <bs.Navbar.Header>
+        <bs.Navbar.Brand>
+          <IndexLink to="/">Galeria</IndexLink>
+        </bs.Navbar.Brand>
+        <bs.Navbar.Toggle />
+      </bs.Navbar.Header>
+      <bs.Navbar.Collapse>
+        <bs.Nav>
+          <bs.NavItem eventKey={1} href="#">Popular</bs.NavItem>
+          <bs.NavItem eventKey={2} href="#">Latest</bs.NavItem>
+          <bs.NavItem eventKey={3} href="#">Upload</bs.NavItem>
+        </bs.Nav>
+        <bs.Navbar.Form role="search" className="navbar-left">
+          <bs.FormGroup>
+            <bs.InputGroup>
+              <bs.InputGroup.Addon>
+                <Icon name="search" />
+              </bs.InputGroup.Addon>
+              <bs.FormControl className="search" type="search" placeholder="Search" />
+            </bs.InputGroup>
+          </bs.FormGroup>
+        </bs.Navbar.Form>
+        {authNav}
+        </bs.Navbar.Collapse>
+    </bs.Navbar>
+  );
+};
+
+Navbar.propTypes = {
+  isAuthenticated: PropTypes.bool.isRequired,
+  actions: PropTypes.object.isRequired,
+  currentUser: PropTypes.any,
+};
 
 class App extends React.Component {
 
   render() {
     return (
-      <div className="container">
-        {this.props.children}
+      <div>
+        <Navbar {...this.props} />
+        <div className="container">
+          {this.props.children}
+        </div>
       </div>
     );
   }
@@ -20,19 +78,26 @@ class App extends React.Component {
 
 App.propTypes = {
   children: PropTypes.object.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  currentUser: PropTypes.any,
 };
 
 
 const mapStateToProps = state => {
+  const { isAuthenticated, currentUser } = state.auth;
   return {
+    isAuthenticated,
+    currentUser,
   };
 };
 
 
 const mapDispatchToProps = dispatch => {
   return {
+    actions: bindActionCreators(actions, dispatch),
   };
 };
+
 
 export default connect(
   mapStateToProps,

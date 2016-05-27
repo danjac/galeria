@@ -2,6 +2,7 @@ var path = require('path');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var HotModuleReplacementPlugin = webpack.HotModuleReplacementPlugin;
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 var serverPort = 3000;
 
@@ -10,7 +11,8 @@ var plugins = [
     title: 'Galeria',
     template: 'index.html'
   }),
-  new HotModuleReplacementPlugin()
+  new ExtractTextPlugin('bundle.css'),
+  new HotModuleReplacementPlugin(),
 ];
 
 var entry = [
@@ -34,7 +36,7 @@ loaders = [
   },
   {
     test: /\.css$/,
-    loaders: ['style-loader', 'css-loader'],
+    loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
   },
   {
     test: /\.(png|woff|woff2|eot|ttf|svg)/,
@@ -56,4 +58,3 @@ module.exports = {
   },
   serverPort: serverPort,
 };
-

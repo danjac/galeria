@@ -1,0 +1,29 @@
+Image gallery using Django and Ember
+
+- All users can see "most popular" and "latest" pages
+- Authenticated users can upload an image with name, description, URL, licence(CC etc) and/or tags
+- All users can search for images
+- Clicking on a tag should show all tagged images
+- Clicking on a user should show all images uploaded by the user
+- Image owner or admin can delete an image
+- Image owner or admin can edit name, description, URL, tags
+- Image owner or admin can flag an image NSFW
+- Only authenticated users can view NSFW images, if they are over 18
+- Users can sign up with username, email, password
+- There should be a "forgot password" button which sends option to reset password in email
+- Authenticated users can change their email and password
+- Authenticated users can delete their accounts, all their images & comments are deleted
+- Deleted comments are shown as [deleted] but comment thread is preserved
+- Authenticated users can comment on images
+- Comments are shown in nested threads
+- Authenticated users can log out
+- Admins can ban authenticated users from uploading, commenting and/or logging in
+- "Gallery" views (popular/latest/by user/search etc) should have Pinterest/masonry-style layout
+- Pagination uses infinite scrolling
+- Authenticated users can vote images and comments up/down (once per image/comment)
+- Authenticated users cannot vote on their own images/comments
+- Authenticated users can subscribe to another user
+- Authenticated users have a dashboard that shows them 
+    - latest comments (on their image or replies to their comment)
+    - latest subscribed uploads
+    - votes on their images/comments ("You have received 3 upvotes and 2 downvotes on image x")

@@ -1,5 +1,9 @@
-const initialState = {};
+import { combineReducers } from 'redux';
+import { routerReducer } from 'react-router-redux';
 
-export default function (state = initialState, action) {
-  return state;
-}
+import auth from './auth';
+
+export default combineReducers({
+  auth,
+  routing: routerReducer,
+});
