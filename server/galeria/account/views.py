@@ -1,11 +1,28 @@
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.decorators import api_view, permission_classes
+from django.contrib.auth import get_user_model
 
-from .serializers import UserSerializer
+from rest_framework.generics import CreateAPIView, RetrieveAPIView
+from rest_framework.permissions import IsAuthenticated, AllowAny
+
+from .serializers import UserSerializer, CreateUserSerializer
+
+User = get_user_model()
 
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def current_user(request):
-    return Response(UserSerializer(request.user).data)
+class CreateUserView(CreateAPIView):
+    model = User
+    permission_classes = [AllowAny]
+    serializer_class = CreateUserSerializer
+
+
+create_user = CreateUserView.as_view()
+
+
+class CurrentUserView(RetrieveAPIView):
+    model = User
+    permission_classes = [IsAuthenticated]
+    serializer_class = UserSerializer
+
+    def get_object(self):
+        return self.request.user
+
+current_user = CurrentUserView.as_view()

@@ -7,6 +7,7 @@ import { syncHistoryWithStore } from 'react-router-redux';
 import App from './components/app';
 import Front from './components/front';
 import Login from './components/login';
+import Signup from './components/signup';
 import store from './store';
 
 import { getCurrentUser } from './actions';
@@ -21,6 +22,7 @@ ReactDOM.render(
       <Route path="/" component={App}>
         <IndexRoute component={Front} />
         <Route path="/login/" component={Login} />
+        <Route path="/signup/" component={Signup} />
       </Route>
     </Router>
   </Provider>,

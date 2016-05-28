@@ -1,28 +1,25 @@
 import React, { PropTypes } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import * as bs from 'react-bootstrap';
-
-const images = [
-  'http://i.imgur.com/RJ9EQC2.jpg',
-  'http://i.imgur.com/8mb9FFv.jpg',
-  'http://i.imgur.com/WRUg64g.jpg',
-  'https://i.imgur.com/uy39kkd.jpg',
-  'http://i.imgur.com/AKH5Y4M.jpg',
-  'http://i.imgur.com/95H0FiD.jpg',
-  'https://i.imgur.com/A5HWAdT.jpg',
-  'http://i.imgur.com/82P7dxw.jpg',
-];
+import * as actions from '../actions';
 
 class Front extends React.Component {
+
+  componentDidMount() {
+    this.props.actions.getPopularImages();
+  }
+
   render() {
     return (
       <bs.Grid>
         <bs.Row>
-          {images.map(image => {
+          {this.props.results.map(image => {
             return (
-            <bs.Col xs={6} md={4} key={image}>
-              <bs.Thumbnail src={image}>
-                <h3>title goes here...</h3>
-                <p>description goes here...</p>
+            <bs.Col xs={6} md={4} key={image.id}>
+              <bs.Thumbnail src={image.thumbnail.url}>
+                <h3>{image.title}</h3>
+                <p>{image.description}</p>
               </bs.Thumbnail>
             </bs.Col>
             );
@@ -33,4 +30,22 @@ class Front extends React.Component {
   }
 }
 
-export default Front;
+Front.propTypes = {
+  results: PropTypes.array.isRequired,
+  actions: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = state => {
+  return state.images;
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    actions: bindActionCreators(actions, dispatch),
+  };
+};
+
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps)(Front);

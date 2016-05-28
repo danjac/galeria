@@ -2,6 +2,19 @@ import fetch from 'isomorphic-fetch';
 import { partial } from 'lodash';
 
 const BASE_URL = 'http://localhost:8000/';
+const AUTH_TOKEN = 'auth-token';
+
+export function getAuthToken() {
+  return window.localStorage.getItem(AUTH_TOKEN);
+}
+
+export function setAuthToken(token) {
+  window.localStorage.setItem(AUTH_TOKEN, token);
+}
+
+export function deleteAuthToken() {
+  window.localStorage.removeItem(AUTH_TOKEN);
+}
 
 
 function checkStatus(response) {
@@ -25,10 +38,10 @@ function doRequest(method, url, data) {
     'Content-Type': 'application/json',
   };
 
-  const token = window.localStorage.getItem('JWT-TOKEN');
+  const token = getAuthToken();
 
   if (token) {
-    headers.Authorization = 'JWT ' + token;
+    headers.Authorization = 'Token ' + token;
   }
 
   return fetch(BASE_URL + url, {
@@ -40,7 +53,6 @@ function doRequest(method, url, data) {
   .then(checkStatus)
   .then(parseJSON);
 }
-
 
 export const get = partial(doRequest, 'GET');
 export const post = partial(doRequest, 'POST');

@@ -16,10 +16,10 @@ class Image(models.Model):
     thumbnail = ImageSpecField(
         source='image',
         processors=[
-            processors.ResizeToFit(350, 350, upscale=True),
+            processors.ResizeToFill(350, 350, upscale=True),
         ],
         format='JPEG',
-        options={'quality': 60},
+        options={'quality': 80},
     )
 
     created_at = models.DateTimeField(auto_now_add=True)

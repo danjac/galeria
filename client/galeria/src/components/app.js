@@ -20,9 +20,11 @@ const Navbar = props => {
   ) : (
     <bs.Nav pullRight>
       <LinkContainer to="/login/">
-        <bs.NavItem eventKey={4} href="/login/">Login</bs.NavItem>
+        <bs.NavItem eventKey={4}>Login</bs.NavItem>
       </LinkContainer>
-      <bs.NavItem eventKey={5} href="#">Signup</bs.NavItem>
+      <LinkContainer to="/signup/">
+        <bs.NavItem eventKey={5}>Signup</bs.NavItem>
+      </LinkContainer>
     </bs.Nav>
   );
 
