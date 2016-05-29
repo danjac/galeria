@@ -6,9 +6,10 @@ import * as bs from 'react-bootstrap';
 import { getImagesWithOwnership } from '../selectors';
 import * as actions from '../actions';
 
-class Front extends React.Component {
+export class Front extends React.Component {
 
   componentDidMount() {
+    console.log("componentDidMount")
     this.props.actions.getPopularImages();
   }
 
