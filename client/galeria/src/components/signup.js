@@ -1,13 +1,16 @@
 import React, { PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
-import * as bs from 'react-bootstrap';
 import { push } from 'react-router-redux';
+import * as bs from 'react-bootstrap';
 import * as api from '../actions/api';
 
 const fields = ['username', 'email', 'password', 'passwordConfirm'];
 
 function getValidationState(field) {
-  if (field.touched && field.error) return 'error';
+  if (field.touched) {
+    if (field.error) return 'error';
+    return 'success';
+  }
 }
 
 function submit(values, dispatch) {

@@ -15,6 +15,7 @@ require('app.css');
 const Navbar = props => {
   const authNav = props.isAuthenticated ? (
     <bs.Nav pullRight>
+      <bs.NavItem href="#">{props.currentUser.username}</bs.NavItem>
       <bs.NavItem eventKey={4} href="#" onClick={props.actions.logout}>Logout</bs.NavItem>
     </bs.Nav>
   ) : (
@@ -40,7 +41,9 @@ const Navbar = props => {
         <bs.Nav>
           <bs.NavItem eventKey={1} href="#">Popular</bs.NavItem>
           <bs.NavItem eventKey={2} href="#">Latest</bs.NavItem>
-          <bs.NavItem eventKey={3} href="#">Upload</bs.NavItem>
+          <LinkContainer to="/upload/">
+            <bs.NavItem eventKey={3}>Upload</bs.NavItem>
+          </LinkContainer>
         </bs.Nav>
         <bs.Navbar.Form role="search" className="navbar-left">
           <bs.FormGroup>

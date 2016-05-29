@@ -16,7 +16,6 @@ export function deleteAuthToken() {
   window.localStorage.removeItem(AUTH_TOKEN);
 }
 
-
 function checkStatus(response) {
   if (response.ok) {
     return response;
@@ -31,12 +30,15 @@ function parseJSON(response) {
 }
 
 function doRequest(method, url, data) {
-  const body = data && !(data instanceof window.FormData) ? JSON.stringify(data) : data;
-
   const headers = {
     Accept: 'application/json',
-    'Content-Type': 'application/json',
   };
+
+  let body = data;
+  if (!(data instanceof window.FormData)) {
+    body = JSON.stringify(data);
+    headers['Content-Type'] = 'application/json';
+  }
 
   const token = getAuthToken();
 
