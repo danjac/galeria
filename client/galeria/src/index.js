@@ -7,6 +7,7 @@ import { syncHistoryWithStore } from 'react-router-redux';
 import App from './components/app';
 import Front from './components/front';
 import Upload from './components/upload';
+import Image from './components/image';
 import Login from './components/login';
 import Signup from './components/signup';
 import store from './store';
@@ -33,6 +34,7 @@ ReactDOM.render(
         <Route path="/upload/" component={Upload} onEnter={authRequired} />
         <Route path="/login/" component={Login} />
         <Route path="/signup/" component={Signup} />
+        <Route path="/image/:id/" component={Image} />
       </Route>
     </Router>
   </Provider>,

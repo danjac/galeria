@@ -28,7 +28,7 @@ class Login extends React.Component {
         <bs.FormGroup>
           <bs.FormControl type="password" ref="password" placeholder="Password" />
         </bs.FormGroup>
-        <bs.Button primary type="submit">Login</bs.Button>
+        <bs.Button bsStyle="primary" type="submit">Login</bs.Button>
       </bs.Form>
     );
   }

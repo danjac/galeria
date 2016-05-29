@@ -3,12 +3,43 @@ import {
   push,
 } from 'react-router-redux';
 
-export function getPopularImages() {
+
+export function deleteImage(id) {
+  return dispatch => {
+    dispatch({
+      type: 'DELETE_IMAGE_REQUEST',
+      payload: id,
+    });
+    api.del(`api/images/${id}/`);
+  };
+}
+
+export function fetchImage(id) {
+  return dispatch => {
+    dispatch({
+      type: 'FETCH_IMAGE_REQUEST',
+    });
+    api.get(`api/images/${id}/`)
+      .then(payload => {
+        dispatch({
+          type: 'FETCH_IMAGE_SUCCESS',
+          payload,
+        });
+      })
+      .catch(error => dispatch({
+        type: 'FETCH_IMAGE_FAILURE',
+        error,
+      }));
+  };
+}
+
+
+export function fetchImagesPage(url) {
   return dispatch => {
     dispatch({
       type: 'FETCH_IMAGES_REQUEST',
     });
-    api.get('api/images/')
+    api.get(url)
       .then(payload => {
         dispatch({
           type: 'FETCH_IMAGES_SUCCESS',
@@ -20,6 +51,11 @@ export function getPopularImages() {
         error,
       }));
   };
+}
+
+
+export function getPopularImages() {
+  return fetchImagesPage('api/images/');
 }
 
 export function getCurrentUser() {

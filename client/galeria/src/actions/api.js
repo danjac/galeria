@@ -46,7 +46,11 @@ function doRequest(method, url, data) {
     headers.Authorization = 'Token ' + token;
   }
 
-  return fetch(BASE_URL + url, {
+  if (!url.startsWith(BASE_URL)) {
+    url = BASE_URL + url;
+  }
+
+  return fetch(url, {
     mode: 'cors',
     method,
     body,
