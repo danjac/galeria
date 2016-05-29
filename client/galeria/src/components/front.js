@@ -9,7 +9,6 @@ import * as actions from '../actions';
 export class Front extends React.Component {
 
   componentDidMount() {
-    console.log("componentDidMount")
     this.props.actions.getPopularImages();
   }
 
