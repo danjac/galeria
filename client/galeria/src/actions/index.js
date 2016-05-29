@@ -3,7 +3,6 @@ import {
   push,
 } from 'react-router-redux';
 
-
 export function deleteImage(id) {
   return dispatch => {
     dispatch({
@@ -33,6 +32,19 @@ export function fetchImage(id) {
   };
 }
 
+export function editImageTitle() {
+  return { type: 'EDIT_IMAGE_TITLE' };
+}
+
+export function changeImageTitle(id, newTitle) {
+  return dispatch => {
+    dispatch({
+      type: 'UPDATE_IMAGE_TITLE',
+      payload: newTitle,
+    });
+    api.patch(`api/images/${id}/`, { title: newTitle });
+  };
+}
 
 export function fetchImagesPage(url) {
   return dispatch => {

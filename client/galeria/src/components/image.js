@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import { findDOMNode } from 'react-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Icon } from 'react-fa';
@@ -17,6 +18,44 @@ export class Image extends React.Component {
     }
   }
 
+  componentDidUpdate() {
+    const title = this.refs.title && findDOMNode(this.refs.title);
+    if (title) {
+      title.select();
+    }
+  }
+
+  renderTitle() {
+    const {
+      image,
+      editTitle,
+      actions: {
+        editImageTitle,
+        changeImageTitle,
+      },
+    } = this.props;
+
+    const onSubmit = (event) => {
+      event.preventDefault();
+      const title = findDOMNode(this.refs.title).value;
+      if (title) {
+        changeImageTitle(image.id, title);
+      }
+    };
+
+    // editTitle could more easily be handled as internal state.
+    if (editTitle) {
+      return (
+        <form className="form-horizontal" onSubmit={onSubmit}>
+          <bs.FormGroup>
+            <bs.FormControl type="text" ref="title" defaultValue={image.title} />
+          </bs.FormGroup>
+        </form>
+      );
+    }
+    return <h2 onClick={editImageTitle}>{image.title}</h2>;
+  }
+
   render() {
     const { isLoading, image } = this.props;
     if (isLoading || !image) {
@@ -24,7 +63,7 @@ export class Image extends React.Component {
     }
     return (
       <div>
-        <h2>{image.title}</h2>
+        {this.renderTitle()}
         <bs.Image src={image.image} thumbnail />
       </div>
     );
@@ -33,6 +72,7 @@ export class Image extends React.Component {
 
 Image.propTypes = {
   image: PropTypes.any,
+  editTitle: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
   routeParams: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
