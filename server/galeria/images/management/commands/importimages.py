@@ -30,8 +30,14 @@ class Command(BaseCommand):
             raise CommandError("No user found for name {}".format(username))
 
         for file in get_files_by_extension(options['dir'], "jpg", "png"):
+            title, _ = os.path.splitext(
+                os.path.basename(file)
+                .replace("_", " ")
+                .replace("-", " ")
+            )
+
             image = Image(image=File(open(file, 'rb')),
                           user=user,
-                          title=os.path.basename(file))
+                          title=title)
             image.save()
             self.stdout.write(image.title)
