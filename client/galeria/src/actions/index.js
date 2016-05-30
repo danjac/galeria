@@ -46,12 +46,12 @@ export function changeImageTitle(id, newTitle) {
   };
 }
 
-export function fetchImagesPage(url) {
+export function fetchImagesPage(pageNumber) {
   return dispatch => {
     dispatch({
       type: 'FETCH_IMAGES_REQUEST',
     });
-    api.get(url)
+    api.get(`api/images/?page=${pageNumber}`)
       .then(payload => {
         dispatch({
           type: 'FETCH_IMAGES_SUCCESS',

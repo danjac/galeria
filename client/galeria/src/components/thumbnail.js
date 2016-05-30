@@ -1,26 +1,20 @@
 import React, { PropTypes } from 'react';
 import * as bs from 'react-bootstrap';
-import { Link } from 'react-router';
-import { truncate } from 'lodash';
+import { LinkContainer } from 'react-router-bootstrap';
 
 const Thumbnail = props => {
-  const { image, onDelete } = props;
+  const { image } = props;
 
-  const deleteBtn = image.isOwner && (
-    <bs.Button bsStyle="danger" onClick={onDelete}>Delete</bs.Button>
-  );
+  const url = `/image/${image.id}/`;
 
   return (
-    <bs.Thumbnail src={image.thumbnail.url}>
-      <h3><Link to={`/image/${image.id}/`}>{truncate(image.title, 30)}</Link></h3>
-      {image.description && <p>{image.description}</p>}
-      {deleteBtn}
-    </bs.Thumbnail>
+    <LinkContainer to={url}>
+      <bs.Thumbnail src={image.thumbnail.url} title={image.title} />
+    </LinkContainer>
   );
 };
 
 Thumbnail.propTypes = {
-  onDelete: PropTypes.func.isRequired,
   image: PropTypes.object.isRequired,
 };
 

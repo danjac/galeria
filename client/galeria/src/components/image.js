@@ -48,7 +48,7 @@ export class Image extends React.Component {
       return (
         <form className="form-horizontal" onSubmit={onSubmit}>
           <bs.FormGroup>
-            <bs.FormControl type="text" ref="title" defaultValue={image.title} />
+            <bs.FormControl bsSize="lg" type="text" ref="title" defaultValue={image.title} />
           </bs.FormGroup>
         </form>
       );

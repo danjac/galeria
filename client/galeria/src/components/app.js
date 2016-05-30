@@ -33,7 +33,7 @@ const Navbar = props => {
     <bs.Navbar>
       <bs.Navbar.Header>
         <bs.Navbar.Brand>
-          <IndexLink to="/">Galeria</IndexLink>
+          <IndexLink to={{ pathname: '/', query: { page: 1 } }}>Galeria</IndexLink>
         </bs.Navbar.Brand>
         <bs.Navbar.Toggle />
       </bs.Navbar.Header>

@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { replace } from 'react-router-redux';
 import { Icon } from 'react-fa';
 import * as bs from 'react-bootstrap';
 
@@ -14,20 +15,28 @@ export class Front extends React.Component {
 
   constructor(props) {
     super(props);
-    this.onNextPage = this.onNextPage.bind(this);
-    this.onPrevPage = this.onPrevPage.bind(this);
+    this.onSelectPage = this.onSelectPage.bind(this);
   }
 
   componentDidMount() {
-    this.props.actions.getPopularImages();
+    const page = this.props.location.query.page ? parseInt(this.props.location.query.page, 10) : 1;
+    this.props.actions.fetchImagesPage(page);
   }
 
-  onNextPage() {
-    this.props.actions.fetchImagesPage(this.props.next);
+  componentWillReceiveProps(nextProps) {
+    if (this.props.location.query.page !== nextProps.location.query.page) {
+      const page = parseInt(nextProps.location.query.page, 10);
+      this.props.actions.fetchImagesPage(page);
+    }
   }
 
-  onPrevPage() {
-    this.props.actions.fetchImagesPage(this.props.previous);
+  onSelectPage(pageNumber) {
+    this.props.replace({
+      pathname: this.props.location.pathname,
+      query: {
+        page: pageNumber,
+      },
+    });
   }
 
   render() {
@@ -35,18 +44,18 @@ export class Front extends React.Component {
       return <div className="text-center"><Icon spin name="spinner" size="5x" /></div>;
     }
     const pager = (
-      <bs.Pager>
-        <bs.PageItem
-          previous
-          onSelect={this.onPrevPage}
-          disabled={!this.props.previous}
-        >&larr; Previous</bs.PageItem>
-        <bs.PageItem
-          next
-          onSelect={this.onNextPage}
-          disabled={!this.props.next}
-        >&rarr; Next</bs.PageItem>
-      </bs.Pager>
+      <bs.Pagination
+        prev
+        next
+        first
+        last
+        ellipsis
+        boundaryLinks
+        items={this.props.pages}
+        maxButtons={10}
+        activePage={this.props.current}
+        onSelect={this.onSelectPage}
+      />
     );
 
     return (
@@ -73,16 +82,27 @@ export class Front extends React.Component {
 Front.propTypes = {
   previous: PropTypes.any,
   next: PropTypes.any,
+  pages: PropTypes.number.isRequired,
+  current: PropTypes.number.isRequired,
   isLoading: PropTypes.bool.isRequired,
   images: PropTypes.array.isRequired,
+  location: PropTypes.object.isRequired,
+  replace: PropTypes.func.isRequired,
   actions: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => {
-  const { previous, next, isLoading } = state.images;
-  return {
+  const {
+    current,
     previous,
     next,
+    pages,
+    isLoading } = state.images;
+  return {
+    current,
+    previous,
+    next,
+    pages,
     isLoading,
     images: getImagesWithOwnership(state),
   };
@@ -90,6 +110,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    replace: bindActionCreators(replace, dispatch),
     actions: bindActionCreators(actions, dispatch),
   };
 };

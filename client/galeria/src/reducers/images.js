@@ -3,6 +3,8 @@ const initialState = {
   deleted: [],
   isLoading: false,
   count: 0,
+  pages: 0,
+  current: 1,
   next: null,
   previous: null,
 };
