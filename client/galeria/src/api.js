@@ -1,20 +1,9 @@
 import fetch from 'isomorphic-fetch';
+import { camelizeKeys } from 'humps';
 import { partial } from 'lodash';
+import { getAuthToken } from './storage';
 
 const BASE_URL = 'http://localhost:8000/';
-const AUTH_TOKEN = 'auth-token';
-
-export function getAuthToken() {
-  return window.localStorage.getItem(AUTH_TOKEN);
-}
-
-export function setAuthToken(token) {
-  window.localStorage.setItem(AUTH_TOKEN, token);
-}
-
-export function deleteAuthToken() {
-  window.localStorage.removeItem(AUTH_TOKEN);
-}
 
 function checkStatus(response) {
   if (response.ok) {
@@ -29,7 +18,7 @@ function parseJSON(response) {
   return response.json();
 }
 
-function doRequest(method, url, data) {
+export function handleRequest(method, url, data) {
   const headers = {
     Accept: 'application/json',
   };
@@ -57,11 +46,12 @@ function doRequest(method, url, data) {
     headers,
   })
   .then(checkStatus)
-  .then(parseJSON);
+  .then(parseJSON)
+  .then(camelizeKeys);
 }
 
-export const get = partial(doRequest, 'GET');
-export const post = partial(doRequest, 'POST');
-export const del = partial(doRequest, 'DELETE');
-export const put = partial(doRequest, 'PUT');
-export const patch = partial(doRequest, 'PATCH');
+export const get = partial(handleRequest, 'GET');
+export const post = partial(handleRequest, 'POST');
+export const del = partial(handleRequest, 'DELETE');
+export const put = partial(handleRequest, 'PUT');
+export const patch = partial(handleRequest, 'PATCH');

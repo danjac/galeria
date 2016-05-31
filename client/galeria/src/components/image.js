@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Icon } from 'react-fa';
 import * as bs from 'react-bootstrap';
-import * as actions from '../actions';
+import * as actions from '../actions/image';
 
 export class Image extends React.Component {
 

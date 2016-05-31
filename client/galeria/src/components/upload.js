@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
 import { push } from 'react-router-redux';
 import * as bs from 'react-bootstrap';
-import * as api from '../actions/api';
+import * as api from '../api';
 
 const fields = ['title', 'description', 'image'];
 
@@ -51,7 +51,9 @@ class Upload extends React.Component {
 
         <bs.FormGroup validationState={getValidationState(description)}>
           <bs.FormControl placeholder="Description" componentClass="textarea" {...description} />
-          {description.touched && description.error && <bs.HelpBlock>{description.error}</bs.HelpBlock>}
+          {description.touched &&
+          description.error &&
+          <bs.HelpBlock>{description.error}</bs.HelpBlock>}
           <bs.FormControl.Feedback />
         </bs.FormGroup>
 

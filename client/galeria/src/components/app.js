@@ -5,7 +5,7 @@ import { IndexLink } from 'react-router';
 import { Icon } from 'react-fa';
 import { LinkContainer } from 'react-router-bootstrap';
 import * as bs from 'react-bootstrap';
-import * as actions from '../actions';
+import * as actions from '../actions/auth';
 
 require('bootstrap/dist/css/bootstrap.min.css');
 require('bootstrap/dist/css/bootstrap-theme.min.css');

@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as bs from 'react-bootstrap';
-import * as actions from '../actions';
+import * as actions from '../actions/auth';
 
 class Login extends React.Component {
 

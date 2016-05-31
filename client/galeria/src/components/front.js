@@ -7,7 +7,7 @@ import * as bs from 'react-bootstrap';
 
 
 import { getImagesWithOwnership } from '../selectors';
-import * as actions from '../actions';
+import * as actions from '../actions/images';
 
 import Thumbnail from './thumbnail';
 
@@ -19,14 +19,12 @@ export class Front extends React.Component {
   }
 
   componentDidMount() {
-    const page = this.props.location.query.page ? parseInt(this.props.location.query.page, 10) : 1;
-    this.props.actions.fetchImagesPage(page);
+    this.fetchData(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.location.query.page !== nextProps.location.query.page) {
-      const page = parseInt(nextProps.location.query.page, 10);
-      this.props.actions.fetchImagesPage(page);
+      this.fetchData(nextProps);
     }
   }
 
@@ -37,6 +35,12 @@ export class Front extends React.Component {
         page: pageNumber,
       },
     });
+  }
+
+  fetchData(props) {
+    const { page } = props.location.query;
+    const pageNumber = page ? parseInt(page, 10) : 1;
+    props.actions.fetchImagesPage(pageNumber);
   }
 
   render() {

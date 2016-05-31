@@ -2,7 +2,8 @@ import React, { PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
 import { push } from 'react-router-redux';
 import * as bs from 'react-bootstrap';
-import * as api from '../actions/api';
+import * as api from '../api';
+import { saveAuthToken } from '../storage';
 
 const fields = ['username', 'email', 'password', 'passwordConfirm'];
 
@@ -17,7 +18,7 @@ function submit(values, dispatch) {
   return new Promise((resolve, reject) => {
     api.post('api/auth-user-create/', values)
     .then(payload => {
-      api.setAuthToken(payload.token);
+      saveAuthToken(payload.token);
       dispatch({ type: 'CURRENT_USER_SUCCESS', payload });
       dispatch(push('/'));
     })
