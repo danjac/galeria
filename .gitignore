@@ -1,5 +1,6 @@
 node_modules
 dist
+client/galeria/tmp
 *.log
 *.sqlite3
 __pycache__

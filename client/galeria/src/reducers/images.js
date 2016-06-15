@@ -7,11 +7,14 @@ const initialState = {
   current: 1,
   next: null,
   previous: null,
+  searchQuery: '',
 };
 
 
 export default function (state = initialState, action) {
   switch (action.type) {
+    case 'UPDATE_SEARCH_QUERY':
+      return Object.assign({}, state, { searchQuery: action.payload });
     case 'FETCH_IMAGES_REQUEST':
       return Object.assign({}, state, { isLoading: true });
     case 'FETCH_IMAGES_SUCCESS':

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Icon } from 'react-fa';
 import * as bs from 'react-bootstrap';
-import * as actions from '../actions/image';
+import actions from '../actions';
 
 export class Image extends React.Component {
 
@@ -84,7 +84,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    actions: bindActionCreators(actions, dispatch),
+    actions: bindActionCreators(actions.image, dispatch),
   };
 };
 

@@ -21,6 +21,7 @@ function submit(values, dispatch) {
       saveAuthToken(payload.token);
       dispatch({ type: 'CURRENT_USER_SUCCESS', payload });
       dispatch(push('/'));
+      resolve();
     })
     .catch(error => error.response.json().then(reject));
   });

@@ -5,7 +5,7 @@ import { IndexLink } from 'react-router';
 import { Icon } from 'react-fa';
 import { LinkContainer } from 'react-router-bootstrap';
 import * as bs from 'react-bootstrap';
-import * as actions from '../actions/auth';
+import actions from '../actions';
 
 require('bootstrap/dist/css/bootstrap.min.css');
 require('bootstrap/dist/css/bootstrap-theme.min.css');
@@ -16,7 +16,7 @@ const Navbar = props => {
   const authNav = props.isAuthenticated ? (
     <bs.Nav pullRight>
       <bs.NavItem href="#">{props.currentUser.username}</bs.NavItem>
-      <bs.NavItem eventKey={4} href="#" onClick={props.actions.logout}>Logout</bs.NavItem>
+      <bs.NavItem eventKey={4} href="#" onClick={props.actions.auth.logout}>Logout</bs.NavItem>
     </bs.Nav>
   ) : (
     <bs.Nav pullRight>
@@ -45,15 +45,25 @@ const Navbar = props => {
             <bs.NavItem eventKey={3}>Upload</bs.NavItem>
           </LinkContainer>
         </bs.Nav>
-        <bs.Navbar.Form role="search" className="navbar-left">
+        <bs.Navbar.Form
+          role="search"
+          className="navbar-left"
+        >
+          <form onSubmit={props.onSearchSubmit}>
           <bs.FormGroup>
             <bs.InputGroup>
               <bs.InputGroup.Addon>
                 <Icon name="search" />
               </bs.InputGroup.Addon>
-              <bs.FormControl className="search" type="search" placeholder="Search" />
+              <bs.FormControl
+                className="search"
+                onChange={props.onSearchChange}
+                type="search"
+                placeholder="Search"
+              />
             </bs.InputGroup>
           </bs.FormGroup>
+        </form>
         </bs.Navbar.Form>
         {authNav}
         </bs.Navbar.Collapse>
@@ -65,14 +75,35 @@ Navbar.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   actions: PropTypes.object.isRequired,
   currentUser: PropTypes.any,
+  onSearchChange: PropTypes.func.isRequired,
+  onSearchSubmit: PropTypes.func.isRequired,
 };
 
 class App extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.onSearchSubmit = this.onSearchSubmit.bind(this);
+    this.onSearchChange = this.onSearchChange.bind(this);
+  }
+
+  onSearchChange(event) {
+    this.props.actions.images.updateSearchQuery(event.target.value);
+  }
+
+  onSearchSubmit(event) {
+    event.preventDefault();
+    this.props.actions.images.search(this.props.searchQuery);
+  }
+
   render() {
     return (
       <div>
-        <Navbar {...this.props} />
+        <Navbar
+          onSearchChange={this.onSearchChange}
+          onSearchSubmit={this.onSearchSubmit}
+          {...this.props}
+        />
         <div className="container">
           {this.props.children}
         </div>
@@ -85,21 +116,29 @@ App.propTypes = {
   children: PropTypes.object.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   currentUser: PropTypes.any,
+  searchQuery: PropTypes.string,
+  actions: PropTypes.object.isRequired,
 };
 
 
 const mapStateToProps = state => {
   const { isAuthenticated, currentUser } = state.auth;
+  const { searchQuery } = state.images;
   return {
     isAuthenticated,
     currentUser,
+    searchQuery,
   };
 };
 
 
 const mapDispatchToProps = dispatch => {
+  const { images, auth } = actions;
   return {
-    actions: bindActionCreators(actions, dispatch),
+    actions: {
+      images: bindActionCreators(images, dispatch),
+      auth: bindActionCreators(auth, dispatch),
+    },
   };
 };
 

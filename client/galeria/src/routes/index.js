@@ -1,7 +1,6 @@
 import React from 'react';
 import { Router, Route, IndexRoute } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
-import { getAuthToken } from '../storage';
 
 import App from '../components/app';
 import Front from '../components/front';
@@ -12,7 +11,8 @@ import Signup from '../components/signup';
 
 export default function (history, store) {
   const authRequired = (nextState, replace) => {
-    if (!getAuthToken()) {
+    const { isAuthenticated } = store.getState().auth;
+    if (!isAuthenticated) {
       replace('/login/');
     }
   };

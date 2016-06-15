@@ -1,41 +1,44 @@
 var path = require('path');
 var webpack = require('webpack');
+
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 var DefinePlugin = webpack.DefinePlugin;
 
-const API_URL = process.env.API_URL || 'http://localhost:5000/';
+var apiBaseUrl = process.env.API_BASE_URL || 'http://localhost:8000/';
 
 var plugins = [
   new HtmlWebpackPlugin({
-    title: 'Traveler World Generator',
-    template: 'index.html'
+    title: 'Galeria',
+    template: 'index.html',
+  }),
+  new ExtractTextPlugin('bundle.css', {
+    allChunks: true,
   }),
   new UglifyJsPlugin({ minimize: true }),
   new DefinePlugin({
     'process.env': {
       NODE_ENV: JSON.stringify('production'),
-      API_URL: JSON.stringify(API_URL),
     },
+    __API_BASE_URL__: JSON.stringify(apiBaseUrl),
   }),
 ];
 
-console.log(process.env.API_URL);
-
 var entry = [
-  './src/index.js',
+  path.join(__dirname, '../src/index.js'),
 ];
 
 var output = {
-  path: path.join(__dirname, 'dist'),
+  path: path.join(__dirname, '../dist'),
   filename: 'bundle.js',
 }
 
 loaders = [
   {
     test: /\.js$/,
-    loaders: ['react-hot', 'babel'],
-    include: path.join(__dirname, 'src'),
+    loaders: ['babel'],
+    include: path.join(__dirname, '../src'),
     exclude: /node_modules/,
   },
   {
@@ -56,7 +59,7 @@ module.exports = {
     loaders: loaders
   },
   resolve: {
-    root: path.join(__dirname, 'src'),
+    root: path.join(__dirname, '../src'),
     extensions: ['', '.js']
   },
 };

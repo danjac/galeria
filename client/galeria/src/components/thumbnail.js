@@ -3,10 +3,7 @@ import * as bs from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
 const Thumbnail = props => {
-  const { image } = props;
-
-  const url = `/image/${image.id}/`;
-
+  const { image, url } = props;
   return (
     <LinkContainer to={url}>
       <bs.Thumbnail src={image.thumbnail.url} title={image.title} />
@@ -16,6 +13,6 @@ const Thumbnail = props => {
 
 Thumbnail.propTypes = {
   image: PropTypes.object.isRequired,
+  url: PropTypes.string.isRequired,
 };
-
 export default Thumbnail;

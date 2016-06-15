@@ -7,7 +7,7 @@ import * as bs from 'react-bootstrap';
 
 
 import { getImagesWithOwnership } from '../selectors';
-import * as actions from '../actions/images';
+import actions from '../actions';
 
 import Thumbnail from './thumbnail';
 
@@ -43,11 +43,22 @@ export class Front extends React.Component {
     props.actions.fetchImagesPage(pageNumber);
   }
 
+  renderImage(image) {
+    const onDelete = () => this.props.actions.deleteImage(image.id);
+    return (
+      <Thumbnail
+        image={image}
+        url={`/image/${image.id}/`}
+        onDelete={onDelete}
+      />
+    );
+  }
+
   render() {
     if (this.props.isLoading) {
       return <div className="text-center"><Icon spin name="spinner" size="5x" /></div>;
     }
-    const pager = (
+    const pager = this.props.pages > 1 ? (
       <bs.Pagination
         prev
         next
@@ -60,7 +71,7 @@ export class Front extends React.Component {
         activePage={this.props.current}
         onSelect={this.onSelectPage}
       />
-    );
+    ) : '';
 
     return (
       <div>
@@ -68,10 +79,9 @@ export class Front extends React.Component {
         <bs.Grid>
           <bs.Row>
             {this.props.images.map(image => {
-              const onDelete = () => this.props.actions.deleteImage(image.id);
               return (
               <bs.Col xs={6} md={4} key={image.id}>
-                <Thumbnail image={image} onDelete={onDelete} />
+                {this.renderImage(image)}
               </bs.Col>
               );
             })}
@@ -115,7 +125,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     replace: bindActionCreators(replace, dispatch),
-    actions: bindActionCreators(actions, dispatch),
+    actions: bindActionCreators(actions.images, dispatch),
   };
 };
 

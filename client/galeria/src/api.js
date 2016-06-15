@@ -3,8 +3,6 @@ import { camelizeKeys } from 'humps';
 import { partial } from 'lodash';
 import { getAuthToken } from './storage';
 
-const BASE_URL = 'http://localhost:8000/';
-
 function checkStatus(response) {
   if (response.ok) {
     return response;
@@ -35,8 +33,8 @@ export function handleRequest(method, url, data) {
     headers.Authorization = 'Token ' + token;
   }
 
-  if (!url.startsWith(BASE_URL)) {
-    url = BASE_URL + url;
+  if (!url.startsWith(__API_BASE_URL__)) {
+    url = __API_BASE_URL__ + url;
   }
 
   return fetch(url, {

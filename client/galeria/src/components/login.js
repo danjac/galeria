@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as bs from 'react-bootstrap';
-import * as actions from '../actions/auth';
+import actions from '../actions';
 
 class Login extends React.Component {
 
@@ -14,9 +14,12 @@ class Login extends React.Component {
 
   onSubmit(event) {
     event.preventDefault();
+    // more advanced: we'd store these values in reducers or redux-form
     const username = findDOMNode(this.refs.username).value;
     const password = findDOMNode(this.refs.password).value;
-    this.props.actions.login(username, password);
+    if (username && password) {
+      this.props.actions.login(username, password);
+    }
   }
 
   render() {
@@ -45,7 +48,7 @@ const mapStateToProps = () => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    actions: bindActionCreators(actions, dispatch),
+    actions: bindActionCreators(actions.auth, dispatch),
   };
 };
 
