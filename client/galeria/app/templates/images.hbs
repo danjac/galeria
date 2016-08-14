@@ -1,0 +1,10 @@
+{{images-pager model=model}}
+<div class="row">
+{{#each model as |image|}}
+<div class="col-md-3">
+    {{image-thumbnail image=image}}
+</div>
+{{/each}}
+</div>
+{{images-pager model=model}}
+

@@ -15,8 +15,8 @@ router.register('^images', ImageViewSet)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^api/auth-user/', current_user),
-    url(r'^api/auth-user-create/', create_user),
+    url(r'^api/auth-users/me/', current_user),
+    url(r'^api/auth-users/', create_user),
     url(r'^api-token-auth/', obtain_auth_token),
     url(r'^api/', include(router.urls)),
 ]

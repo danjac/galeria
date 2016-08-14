@@ -1,0 +1,27 @@
+{{#bs-navbar}}
+    <div class="navbar-header">
+     {{#bs-navbar-toggle}}
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      {{/bs-navbar-toggle}}
+      {{#link-to "images" (query-params page=1) class="navbar-brand"}}Galeria{{/link-to}}
+    </div>
+
+    {{#bs-navbar-content}}
+      {{#bs-navbar-nav}}
+        {{#if isAuthenticated}}
+        {{#bs-nav-item}}{{#link-to 'upload'}}Upload{{/link-to}}{{/bs-nav-item}}
+        {{/if}}
+      {{/bs-navbar-nav}}
+      {{#bs-navbar-nav class="navbar-right"}}
+        {{#if isAuthenticated}}
+        {{#bs-nav-item}}<a>{{currentUser.user.username}}</a>{{/bs-nav-item}}
+        {{#bs-nav-item}}<a {{action 'logout'}}>Logout</a>{{/bs-nav-item}}
+        {{else}}
+        {{#bs-nav-item}}{{#link-to 'login'}}Login{{/link-to}}{{/bs-nav-item}}
+        {{/if}}
+      {{/bs-navbar-nav}}
+    {{/bs-navbar-content}}
+{{/bs-navbar}}

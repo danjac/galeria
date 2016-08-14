@@ -1,0 +1,7 @@
+<nav>
+  <ul class="pager">
+    <li class={{prevClass}}>{{#link-to 'images' (query-params page=model.meta.previous)}}<span aria-hidden="true">&larr;</span> Older{{/link-to}}</li>
+    <li class={{nextClass}}>{{#link-to 'images' (query-params page=model.meta.next)}}Newer <span aria-hidden="true">&rarr;</span>{{/link-to}}</li>
+  </ul>
+</nav>
+

@@ -1,0 +1,9 @@
+{{gallery-navbar isAuthenticated=session.isAuthenticated 
+                 currentUser=currentUser
+                 logout='invalidateSession'}}
+<div class="container">
+{{#each alerts.messages as |msg|}}
+{{#bs-alert type=msg.type isVisible=msg.isVisible}}{{msg.message}}{{/bs-alert}}
+{{/each}}
+{{outlet}}
+</div>

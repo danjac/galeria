@@ -1,0 +1,6 @@
+{{#bs-form formLayout="vertical" action='submit' model=model}}
+    {{bs-form-element controlType="file" label="Image" id="image" }}
+    {{bs-form-element controlType="input" label="Title" property="title"}}
+    {{bs-form-element controlType="textarea" label="Description" property="description"}}
+    {{#bs-button type="primary" buttonType="submit" icon="glyphicon glyphicon-upload"}}Upload{{/bs-button}}
+{{/bs-form}}
